@@ -3,124 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Browser</title>
-    <link rel="manifest" href="manifest.json">
+    <title>Minimalist Browser 3.0</title>
     <style>
         /* Global Styles */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: #f1f1f1;
+            color: #333;
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Navigation Bar */
+        /* Light Mode */
+        body.light-mode {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background-color: #121212;
+            color: #fff;
+        }
+
+        /* Navbar */
         .navbar {
-            background-color: #ffffff;
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: var(--navbar-bg);
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .navbar input[type="text"] {
             width: 70%;
             padding: 12px;
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            outline: none;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 25px;
+            color: var(--input-color);
+            transition: all 0.3s;
         }
 
         .navbar input[type="text"]:focus {
-            border-color: #0078d4;
+            border-color: var(--input-focus);
         }
 
         .navbar button {
-            background-color: #0078d4;
-            color: white;
-            padding: 8px 15px;
+            background-color: var(--button-bg);
+            padding: 10px 20px;
             border: none;
-            border-radius: 20px;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
 
         .navbar button:hover {
-            background-color: #005a9e;
+            background-color: var(--button-hover-bg);
         }
 
-        /* Tabs */
+        /* Tab Area */
         .tabs {
             display: flex;
-            background-color: #ffffff;
-            padding: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             justify-content: flex-start;
-            align-items: center;
+            padding: 10px;
             overflow-x: auto;
-            margin-bottom: 10px;
+            background-color: var(--tabs-bg);
+            transition: background-color 0.3s;
         }
 
         .tab {
-            padding: 8px 16px;
-            margin-right: 10px;
-            background-color: #f0f0f0;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 14px;
+            background-color: var(--tab-bg);
+            padding: 12px 24px;
+            margin-right: 12px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .tab.active {
-            background-color: #0078d4;
-            color: white;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .tab:hover {
-            background-color: #e3e3e3;
+            background-color: var(--tab-hover-bg);
+        }
+
+        .tab.active {
+            background-color: var(--tab-active-bg);
+            color: white;
         }
 
         .tab-close {
             margin-left: 8px;
-            font-size: 16px;
+            font-size: 18px;
+            color: var(--tab-close-color);
             cursor: pointer;
-            color: #aaa;
+            transition: color 0.3s;
         }
 
         .tab-close:hover {
-            color: #ff3b30;
+            color: var(--tab-close-hover-color);
         }
 
-        /* Iframe to display websites */
+        /* Main Iframe */
         iframe {
             width: 100%;
-            height: calc(100vh - 200px); /* Adjusted height for the navbar and tabs */
+            height: calc(100vh - 120px);
             border: none;
-            background-color: #fff;
+            background-color: var(--iframe-bg);
+            transition: background-color 0.3s;
         }
-        
+
+        /* Custom Properties */
+        :root {
+            --navbar-bg: #ffffff;
+            --input-bg: #fff;
+            --input-border: #ddd;
+            --input-color: #333;
+            --input-focus: #00c6ff;
+            --button-bg: #00c6ff;
+            --button-hover-bg: #009bb6;
+            --tabs-bg: #f1f1f1;
+            --tab-bg: #e0e0e0;
+            --tab-hover-bg: #d3d3d3;
+            --tab-active-bg: #00c6ff;
+            --tab-close-color: #999;
+            --tab-close-hover-color: #ff3b30;
+            --iframe-bg: #fff;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            --navbar-bg: #1a1a1a;
+            --input-bg: #333;
+            --input-border: #444;
+            --input-color: #fff;
+            --input-focus: #00c6ff;
+            --button-bg: #00c6ff;
+            --button-hover-bg: #009bb6;
+            --tabs-bg: #333;
+            --tab-bg: #444;
+            --tab-hover-bg: #555;
+            --tab-active-bg: #00c6ff;
+            --tab-close-color: #bbb;
+            --tab-close-hover-color: #ff3b30;
+            --iframe-bg: #333;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            .navbar input[type="text"] {
+                width: 60%;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+        }
     </style>
 </head>
-<body>
+<body class="light-mode">
 
-    <!-- Navigation Bar -->
+    <!-- Navbar -->
     <div class="navbar">
         <input type="text" id="url-input" placeholder="Search or enter URL..." onkeypress="handleSearch(event)">
-        <button onclick="openNewTab()">+ New Tab</button>
+        <button onclick="openNewTab()">+ Tab</button>
+        <button onclick="toggleDarkMode()">🌓</button> <!-- Dark Mode Button -->
     </div>
 
     <!-- Tabs Section -->
@@ -128,7 +189,7 @@
         <div class="tab active" onclick="changeTab(event, 'about:blank')">New Tab</div>
     </div>
 
-    <!-- Display iframe content -->
+    <!-- Iframe for Browser Content -->
     <iframe id="iframe" src="about:blank"></iframe>
 
     <script>
@@ -154,7 +215,7 @@
             loadTab('about:blank');
         }
 
-        // Load a site into a new tab
+        // Load a new tab and set the iframe's URL
         function loadTab(url) {
             const tabId = 'tab-' + Date.now();
             const tab = document.createElement('div');
@@ -170,21 +231,14 @@
             tab.appendChild(closeBtn);
 
             tabs.appendChild(tab);
-
-            // Set the iframe source
             iframe.src = url;
-
-            // Make the new tab the active tab
             changeTab(event, url);
         }
 
         // Change to a specific tab
         function changeTab(event, url) {
-            // Mark all tabs as inactive
             const allTabs = tabs.getElementsByClassName('tab');
             Array.from(allTabs).forEach(tab => tab.classList.remove('active'));
-
-            // Mark the clicked tab as active
             event.target.classList.add('active');
             iframe.src = url;
             activeTab = url;
@@ -201,23 +255,13 @@
                 }
             }
         }
-    </script>
 
-    <!-- Register Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker
-                    .register('/service-worker.js')
-                    .then((registration) => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch((error) => {
-                        console.log('Service Worker registration failed:', error);
-                    });
-            });
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
         }
     </script>
 
 </body>
 </html>
+
